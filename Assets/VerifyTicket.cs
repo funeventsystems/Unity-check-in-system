@@ -62,14 +62,31 @@ public class VerifyTicket : MonoBehaviour
                 // Handle 400 Bad Request error (change screen color to red)
                 failScreen.gameObject.SetActive(true);
                 successScreen.gameObject.SetActive(false);
-                messageText.text = "Error: " + www.error;
+                messageText.text = "Error: " + www.error + "Something happened in the request the failed.";
                 StartCoroutine(ResetScreensAfterDelay(2f));
+            } if (www.responseCode == 404)
+            {
+                // Handle 400 Bad Request error (change screen color to red)
+                failScreen.gameObject.SetActive(true);
+                successScreen.gameObject.SetActive(false);
+                messageText.text = "Error: " + www.error + "A.K.A Ticket not found, nothing was there";
+                StartCoroutine(ResetScreensAfterDelay(2f));
+            }
+            if (www.responseCode == 502)
+            {
+                // Handle 400 Bad Request error (change screen color to red)
+                failScreen.gameObject.SetActive(true);
+                successScreen.gameObject.SetActive(false);
+                messageText.text = "Error: " + www.error + "Server is offline! STOP checking people in, and get someone to fix it!!! Mark down the ticket ID on paper, and let them in.";
+                StartCoroutine(ResetScreensAfterDelay(5f));
             }
             else
             {
                 // Handle other network or HTTP errors
                 // (You can add specific handling for different error codes here)
                 Debug.LogError("Network/HTTP error: " + www.responseCode);
+                failScreen.gameObject.SetActive(true);
+                successScreen.gameObject.SetActive(false);
                 StartCoroutine(ResetScreensAfterDelay(2f));
             }
         }
